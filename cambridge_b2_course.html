@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cambridge B2 First · Curso interactivo</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(#f5f7fb, #0d1320);
+  --surface: light-dark(#ffffff, #141c2b);
+  --surface-2: light-dark(#eef2f8, #1b2638);
+  --text: light-dark(#142033, #edf2fb);
+  --muted: light-dark(#66738a, #a9b5c8);
+  --border: light-dark(#dce3ee, #2b384d);
+  --accent: #1f6feb;
+  --accent-2: #7c4dff;
+  --success: #20a66a;
+  --warning: #f0a61d;
+  --danger: #d84c5b;
+  --shadow: 0 14px 36px rgba(20, 32, 51, 0.10);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+.app-root { min-height: 100vh; background-color: var(--bg); }
+.topbar { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(14px); background: color-mix(in srgb, var(--bg) 88%, transparent); border-bottom: 1px solid var(--border); }
+.nav { max-width: 1180px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 800; }
+.brand-mark { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; color: white; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: var(--shadow); }
+.nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+.nav-links button { border: 0; background: transparent; color: var(--muted); padding: 9px 12px; border-radius: 10px; }
+.nav-links button:hover, .nav-links button.active { color: var(--text); background: var(--surface-2); }
+.container { max-width: 1180px; margin: 0 auto; padding: 34px 24px 60px; }
+.hero { display: grid; grid-template-columns: 1.35fr .65fr; gap: 24px; align-items: stretch; }
+.hero-card, .panel, .lesson-card, .resource-card { background: var(--surface); border: 1px solid var(--border); border-radius: 22px; box-shadow: var(--shadow); }
+.hero-card { padding: 34px; position: relative; overflow: hidden; }
+.hero-card::after { content: ""; position: absolute; width: 260px; height: 260px; right: -80px; top: -90px; border-radius: 50%; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 26%, transparent), color-mix(in srgb, var(--accent-2) 15%, transparent)); }
+.eyebrow { display: inline-flex; padding: 6px 10px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 12%, var(--surface)); color: var(--accent); font-weight: 750; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
+h1 { font-size: clamp(34px, 5vw, 60px); line-height: .98; letter-spacing: -.05em; margin: 16px 0; max-width: 760px; }
+.hero-card p { max-width: 740px; color: var(--muted); font-size: 17px; line-height: 1.65; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+.primary, .secondary { border-radius: 12px; padding: 11px 15px; font-weight: 750; border: 1px solid transparent; }
+.primary { background: var(--accent); color: white; }
+.secondary { background: var(--surface-2); color: var(--text); border-color: var(--border); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
+.stat { background: var(--surface-2); border-radius: 14px; padding: 14px; }
+.stat strong { display: block; font-size: 24px; }
+.stat span { color: var(--muted); font-size: 12px; }
+.progress-card { padding: 28px; display: flex; flex-direction: column; justify-content: space-between; }
+.progress-ring { width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 18px; display: grid; place-items: center; background: conic-gradient(var(--accent) 0deg 126deg, var(--surface-2) 126deg 360deg); position: relative; }
+.progress-ring::before { content:""; position:absolute; inset:14px; border-radius:50%; background:var(--surface); }
+.progress-ring span { position: relative; z-index: 1; font-size: 31px; font-weight: 850; }
+.section { margin-top: 34px; scroll-margin-top: 90px; }
+.section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.section h2 { margin: 0; font-size: 28px; letter-spacing: -.03em; }
+.section-head p { margin: 5px 0 0; color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.lesson-card { padding: 20px; display: flex; flex-direction: column; min-height: 220px; transition: transform .18s ease, box-shadow .18s ease; }
+.lesson-card:hover { transform: translateY(-4px); box-shadow: 0 18px 42px rgba(20,32,51,.15); }
+.icon { width: 40px; height: 40px; border-radius: 12px; display:grid; place-items:center; background: var(--surface-2); font-size: 20px; }
+.lesson-card h3 { margin: 14px 0 7px; }
+.lesson-card p { color: var(--muted); line-height: 1.5; margin: 0; font-size: 14px; }
+.card-bottom { margin-top: auto; display:flex; justify-content:space-between; align-items:center; padding-top: 18px; gap: 10px; }
+.tag { color: var(--muted); font-size: 12px; font-weight: 700; }
+.small-btn { border: 1px solid var(--border); background: transparent; color: var(--text); padding: 8px 10px; border-radius: 9px; font-weight: 700; }
+.practice { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; }
+.quiz { padding: 24px; }
+.quiz .question { font-size: 20px; font-weight: 800; margin: 8px 0 18px; }
+.options { display: grid; gap: 10px; }
+.option { text-align: left; width: 100%; padding: 13px 14px; border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 12px; }
+.option:hover { border-color: color-mix(in srgb, var(--accent) 60%, var(--border)); }
+.option.correct { border-color: var(--success); background: color-mix(in srgb, var(--success) 10%, var(--surface)); }
+.option.wrong { border-color: var(--danger); background: color-mix(in srgb, var(--danger) 9%, var(--surface)); }
+.feedback { min-height: 24px; font-weight: 750; margin-top: 14px; }
+.sidebar { padding: 22px; }
+.goal { margin: 10px 0 14px; }
+.goal-row { display:flex; justify-content:space-between; font-size: 13px; margin-bottom: 6px; }
+.bar { height: 10px; background: var(--surface-2); border-radius: 999px; overflow:hidden; }
+.bar span { display:block; height:100%; background: linear-gradient(90deg,var(--accent),var(--accent-2)); border-radius: inherit; }
+.schedule { display:grid; gap:10px; margin-top: 15px; }
+.schedule-row { display:flex; align-items:center; gap:12px; padding: 10px 0; border-top: 1px dashed var(--border); }
+.day { width: 44px; color: var(--accent); font-weight: 850; }
+.resources { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.resource-card { padding: 20px; }
+.resource-card h3 { margin-top: 10px; }
+.resource-card p { color: var(--muted); line-height: 1.55; font-size: 14px; }
+.resource-card a { color: var(--accent); font-weight: 800; text-decoration:none; }
+.footer { margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--border); color: var(--muted); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; font-size: 13px; }
+.toast { position: fixed; right: 20px; bottom: 20px; padding: 13px 16px; border-radius: 12px; background: var(--text); color: var(--surface); box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); pointer-events:none; transition: .2s ease; z-index: 30; }
+.toast.show { opacity: 1; transform: translateY(0); }
+.modal { position:fixed; inset:0; z-index:40; display:none; place-items:center; padding: 20px; background: rgba(0,0,0,.45); }
+.modal.open { display:grid; }
+.modal-box { width:min(650px,100%); max-height:88vh; overflow:auto; background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:24px; box-shadow:var(--shadow); }
+.modal-head { display:flex; justify-content:space-between; align-items:center; gap:15px; }
+.close { border:0; background:var(--surface-2); color:var(--text); width:36px; height:36px; border-radius:10px; font-size:20px; }
+.lesson-content { color: var(--muted); line-height: 1.65; }
+.grammar-box { padding:15px; background:var(--surface-2); border-radius:14px; margin:14px 0; }
+.hidden { display:none; }
+@media (max-width: 980px) {
+  .hero, .practice { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .resources { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .nav { padding: 12px 16px; }
+  .nav-links { overflow:auto; flex-wrap:nowrap; max-width: 65vw; }
+  .container { padding: 22px 16px 44px; }
+  .hero-card, .progress-card { padding: 22px; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="app-root">
+  <header class="topbar">
+    <nav class="nav">
+      <div class="brand"><div class="brand-mark">B2</div><span>Cambridge English · First</span></div>
+      <div class="nav-links">
+        <button class="active" data-scroll="inicio">Inicio</button>
+        <button data-scroll="curso">Curso</button>
+        <button data-scroll="practica">Práctica</button>
+        <button data-scroll="recursos">Recursos</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container" id="inicio">
+    <section class="hero">
+      <div class="hero-card">
+        <span class="eyebrow">Nivel B2 · Preparación de examen</span>
+        <h1>Prepárate para Cambridge B2 First.</h1>
+        <p>Un recorrido interactivo para trabajar <strong>Reading & Use of English, Writing, Listening y Speaking</strong>, con práctica corta, objetivos semanales y recursos para estudiar de forma constante.</p>
+        <div class="hero-actions">
+          <button class="primary" id="startBtn">Empezar una lección</button>
+          <button class="secondary" id="quizBtn">Hacer mini test</button>
+        </div>
+        <div class="stats">
+          <div class="stat"><strong>12</strong><span>módulos guiados</span></div>
+          <div class="stat"><strong>4</strong><span>destrezas del examen</span></div>
+          <div class="stat"><strong>20 min</strong><span>sesión recomendada</span></div>
+        </div>
+      </div>
+      <aside class="panel progress-card">
+        <div>
+          <div class="progress-ring" aria-label="35% de progreso"><span id="progressText">35%</span></div>
+          <h3 style="text-align:center;margin:0 0 6px;">Tu progreso</h3>
+          <p style="text-align:center;color:var(--muted);margin:0;">Vas camino del siguiente objetivo.</p>
+        </div>
+        <div>
+          <div class="goal"><div class="goal-row"><span>Reading & Use of English</span><strong>45%</strong></div><div class="bar"><span style="width:45%"></span></div></div>
+          <div class="goal"><div class="goal-row"><span>Writing</span><strong>30%</strong></div><div class="bar"><span style="width:30%"></span></div></div>
+          <div class="goal"><div class="goal-row"><span>Listening</span><strong>25%</strong></div><div class="bar"><span style="width:25%"></span></div></div>
+          <div class="goal"><div class="goal-row"><span>Speaking</span><strong>40%</strong></div><div class="bar"><span style="width:40%"></span></div></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="curso">
+      <div class="section-head"><div><h2>Ruta del curso</h2><p>Elige una destreza y practica con sesiones de pocos minutos.</p></div><button class="secondary" id="allLessonsBtn">Ver todas</button></div>
+      <div class="grid" id="lessonGrid"></div>
+    </section>
+
+    <section class="section" id="practica">
+      <div class="section-head"><div><h2>Mini test B2</h2><p>Comprueba tu precisión en una pregunta rápida.</p></div><span class="tag" id="scoreLabel">0 / 0 acertadas</span></div>
+      <div class="practice">
+        <div class="panel quiz">
+          <div class="eyebrow">Question of the day</div>
+          <div class="question" id="questionText">Loading…</div>
+          <div class="options" id="options"></div>
+          <div class="feedback" id="feedback"></div>
+          <button class="primary hidden" id="nextBtn">Siguiente pregunta</button>
+        </div>
+        <aside class="panel sidebar">
+          <h3 style="margin-top:0;">Plan semanal</h3>
+          <div class="schedule">
+            <div class="schedule-row"><div class="day">Lun</div><div><strong>Grammar Lab</strong><div class="tag">20 min · Use of English</div></div></div>
+            <div class="schedule-row"><div class="day">Mié</div><div><strong>Writing Sprint</strong><div class="tag">25 min · Essay & email</div></div></div>
+            <div class="schedule-row"><div class="day">Vie</div><div><strong>Listening Boost</strong><div class="tag">20 min · Note-taking</div></div></div>
+            <div class="schedule-row"><div class="day">Dom</div><div><strong>Speaking Club</strong><div class="tag">30 min · Part 2–4</div></div></div>
+          </div>
+          <button class="secondary" style="width:100%;margin-top:16px;" id="goalBtn">Marcar objetivo semanal</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="recursos">
+      <div class="section-head"><div><h2>Recursos para estudiar</h2><p>Materiales organizados para reforzar cada parte del examen.</p></div></div>
+      <div class="resources">
+        <article class="resource-card"><div class="icon">📘</div><h3>Grammar & Vocabulary</h3><p>Repasa tiempos verbales, modales, collocations, phrasal verbs y word formation.</p><a href="#" data-resource="grammar">Abrir resumen →</a></article>
+        <article class="resource-card"><div class="icon">✍️</div><h3>Writing Toolkit</h3><p>Ideas para organizar textos, conectar argumentos y revisar errores antes de entregar.</p><a href="#" data-resource="writing">Abrir plantilla →</a></article>
+        <article class="resource-card"><div class="icon">🎧</div><h3>Listening & Speaking</h3><p>Técnicas de predicción, toma de notas y expresiones útiles para ganar fluidez.</p><a href="#" data-resource="speaking">Ver técnicas →</a></article>
+      </div>
+    </section>
+
+    <footer class="footer"><span>Cambridge B2 First · Panel de estudio</span><span>Construido como recurso educativo interactivo</span></footer>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <div class="modal-head"><h2 id="modalTitle" style="margin:0;">Lección</h2><button class="close" id="closeModal">×</button></div>
+      <div class="lesson-content" id="modalBody"></div>
+    </div>
+  </div>
+</div>
+<script>
+const lessons = [
+  {icon:'📖', title:'Reading & Use of English', desc:'Comprende textos, transforma palabras y practica gramática en contexto.', tag:'6 módulos', body:'<p>Trabaja primero la idea general y después busca evidencias concretas. En Use of English, presta atención a colocaciones, prefijos, sufijos y estructuras frecuentes.</p><div class="grammar-box"><strong>Consejo B2:</strong> antes de elegir una respuesta, identifica qué función gramatical falta en la frase.</div><p><strong>Microtarea:</strong> subraya el verbo principal, identifica el tiempo verbal y explica por qué encaja.</p>'},
+  {icon:'✍️', title:'Writing', desc:'Aprende a planificar, conectar ideas y revisar textos con claridad.', tag:'4 formatos', body:'<p>Una buena respuesta necesita una estructura visible: introducción, desarrollo y cierre. Usa conectores variados y deja unos minutos para revisar verbos, artículos, preposiciones y concordancia.</p><div class="grammar-box"><strong>Checklist:</strong> ¿respondí a todos los puntos? ¿cada párrafo tiene una idea central? ¿he usado vocabulario adecuado al registro?</div>'},
+  {icon:'🎧', title:'Listening', desc:'Mejora la predicción, escucha selectiva y detección de palabras clave.', tag:'5 sesiones', body:'<p>Lee las opciones antes de escuchar y predice sinónimos posibles. Durante el audio, no intentes memorizar cada palabra: busca intención, actitud, números, lugares y relaciones entre ideas.</p><div class="grammar-box"><strong>Técnica:</strong> anota 2–3 palabras clave y revisa tu elección después del segundo pase.</div>'},
+  {icon:'🗣️', title:'Speaking', desc:'Gana fluidez con opiniones, comparaciones y preguntas de seguimiento.', tag:'4 partes', body:'<p>Habla con frases completas y desarrolla tus ideas. Para comparar, utiliza expresiones como <em>whereas</em>, <em>both</em>, <em>in contrast</em> y añade una razón o consecuencia.</p><div class="grammar-box"><strong>Reto:</strong> habla durante 45 segundos sobre una imagen sin quedarte en silencio.</div>'},
+  {icon:'🧠', title:'Grammar Lab', desc:'Sesiones rápidas de precisión: tiempos, modales, pasiva y condicionales.', tag:'10 prácticas', body:'<p>Convierte cada error en una mini regla. Crea ejemplos propios y vuelve a ellos al cabo de varios días.</p>'},
+  {icon:'💡', title:'B2 Vocabulary', desc:'Construye vocabulario útil por temas y aprende collocations en contexto.', tag:'8 temas', body:'<p>Aprende palabras en grupos: verbo + sustantivo, adjetivo + preposición y phrasal verbs. Usa una frase real por cada expresión nueva.</p>'},
+  {icon:'⏱️', title:'Exam Trainer', desc:'Practica con tiempo limitado y aprende a repartir los minutos.', tag:'3 simulacros', body:'<p>Entrena primero sin presión y después con cronómetro. Al terminar, clasifica tus fallos: conocimiento, distracción o gestión del tiempo.</p>'},
+  {icon:'🚀', title:'Final Review', desc:'Repasa errores frecuentes y crea tu checklist para el día del examen.', tag:'Última etapa', body:'<p>Haz una revisión ligera: expresiones útiles, conectores, errores recurrentes y estrategias. Evita estudiar contenido nuevo de forma intensiva al final.</p>'}
+];
+const questions = [
+  {q:'Choose the best option: “I wish I _____ more time to study this week.”', opts:['have','had','will have','am having'], answer:1, explain:'“I wish + past simple” se usa para expresar un deseo sobre una situación presente.'},
+  {q:'Complete: “She succeeded _____ finding a solution.”', opts:['at','in','on','to'], answer:1, explain:'La expresión correcta es “succeed in + -ing”.'},
+  {q:'Choose the best word: “The film was so _____ that I watched it twice.”', opts:['engaged','engaging','engagement','engage'], answer:1, explain:'“Engaging” describe algo que resulta interesante o atractivo.'}
+];
+let qIndex=0, score=0, answered=false;
+const grid=document.getElementById('lessonGrid');
+lessons.forEach((l,i)=>{
+  const card=document.createElement('article'); card.className='lesson-card';
+  card.innerHTML=`<div class="icon">${l.icon}</div><h3>${l.title}</h3><p>${l.desc}</p><div class="card-bottom"><span class="tag">${l.tag}</span><button class="small-btn" data-lesson="${i}">Abrir</button></div>`;
+  grid.appendChild(card);
+});
+function openLesson(i){document.getElementById('modalTitle').textContent=lessons[i].title;document.getElementById('modalBody').innerHTML=lessons[i].body+`<div style="margin-top:18px;"><button class="primary" id="completeLesson">Marcar como completada</button></div>`;document.getElementById('modal').classList.add('open');document.getElementById('completeLesson').onclick=()=>{incrementProgress();showToast('Lección completada. ¡Buen trabajo!');closeModal();};}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function incrementProgress(){let p=parseInt(document.getElementById('progressText').textContent);p=Math.min(100,p+5);document.getElementById('progressText').textContent=p+'%';document.querySelector('.progress-ring').style.background=`conic-gradient(var(--accent) 0deg ${p*3.6}deg, var(--surface-2) ${p*3.6}deg 360deg)`;}
+function renderQuestion(){const q=questions[qIndex];answered=false;document.getElementById('questionText').textContent=q.q;const opts=document.getElementById('options');opts.innerHTML='';q.opts.forEach((o,i)=>{const b=document.createElement('button');b.className='option';b.textContent=`${String.fromCharCode(65+i)}. ${o}`;b.onclick=()=>answer(i);opts.appendChild(b);});document.getElementById('feedback').textContent='';document.getElementById('nextBtn').classList.add('hidden');document.getElementById('scoreLabel').textContent=`${score} / ${qIndex} acertadas`;}
+function answer(i){if(answered)return;answered=true;const q=questions[qIndex];document.querySelectorAll('.option').forEach((b,idx)=>{if(idx===q.answer)b.classList.add('correct');if(idx===i&&i!==q.answer)b.classList.add('wrong');});if(i===q.answer){score++;document.getElementById('feedback').textContent='✅ Correcto. '+q.explain;}else{document.getElementById('feedback').textContent='❌ Casi. '+q.explain;}document.getElementById('nextBtn').classList.remove('hidden');document.getElementById('scoreLabel').textContent=`${score} / ${qIndex+1} acertadas`;incrementProgress();}
+document.querySelectorAll('[data-scroll]').forEach(btn=>btn.onclick=()=>document.getElementById(btn.dataset.scroll).scrollIntoView());
+document.querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>openLesson(Number(b.dataset.lesson)));
+document.getElementById('startBtn').onclick=()=>{document.getElementById('curso').scrollIntoView();setTimeout(()=>openLesson(0),450);};
+document.getElementById('quizBtn').onclick=()=>document.getElementById('practica').scrollIntoView();
+document.getElementById('nextBtn').onclick=()=>{qIndex=(qIndex+1)%questions.length;renderQuestion();};
+document.getElementById('goalBtn').onclick=()=>showToast('Objetivo guardado: 4 sesiones esta semana.');
+document.getElementById('allLessonsBtn').onclick=()=>{showToast('Mostrando todas las 8 rutas disponibles.');grid.scrollIntoView({behavior:'smooth',block:'center'});};
+document.getElementById('closeModal').onclick=closeModal;
+document.getElementById('modal').onclick=(e)=>{if(e.target.id==='modal')closeModal();};
+document.querySelectorAll('[data-resource]').forEach(a=>a.onclick=(e)=>{e.preventDefault();const r=e.currentTarget.dataset.resource;const titles={grammar:'Resumen de Grammar & Vocabulary',writing:'Plantilla de Writing',speaking:'Técnicas de Listening & Speaking'};const bodies={grammar:'Revisa collocations, word formation, tiempos verbales, modales y preposiciones. Después, crea 5 frases propias.',writing:'Planifica 5 minutos, escribe con una estructura clara y reserva 3–4 minutos para revisar errores. Comprueba contenido, organización, registro y precisión.',speaking:'Predice el tema, usa conectores, compara antes de justificar y pide la opinión de tu compañero cuando corresponda.'};document.getElementById('modalTitle').textContent=titles[r];document.getElementById('modalBody').innerHTML=`<p>${bodies[r]}</p><div class="grammar-box"><strong>Rutina:</strong> 10 minutos de repaso + 5 minutos de práctica + 5 minutos de revisión.</div>`;document.getElementById('modal').classList.add('open');});
+renderQuestion();
+</script>
+</body>
+</html>
